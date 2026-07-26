@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentation — Panelforge</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <a class="brand" href="index.html"><img src="icon.svg" alt=""> Panelforge</a>
+      <a class="link" href="docs.html">Documentation</a>
+      <a class="link" href="privacy.html">Privacy</a>
+      <a class="link" href="support.html">Support</a>
+      <a class="link" href="https://github.com/oliverm24ru/panelforge">GitHub</a>
+    </nav>
+  </header>
+
+  <div class="wrap prose">
+    <h1>User Guide</h1>
+    <p class="updated">
+      Panelforge lets Jira administrators add custom widgets ("Panels") to issue screens by
+      writing plain HTML, CSS, and JavaScript — no separate app, no deploy pipeline.
+    </p>
+
+    <h2>Creating a panel</h2>
+    <p>Open <strong>Jira Settings → Apps → Panelforge — Panel Builder</strong>. There are two
+      kinds of panel:</p>
+    <ul>
+      <li><strong>Targeted panel</strong> — shown based on rules: project, issue type, and
+        field values (all conditions must match; empty means "any").</li>
+      <li><strong>Personal panel</strong> — follows people instead of projects: each user sees
+        it on issues where <strong>they</strong> are the assignee. Targeting rules become
+        optional extra filters.</li>
+    </ul>
+    <p>
+      Each panel has three code tabs (HTML / CSS / JS), a live preview (against sample data or
+      a real issue key), a placement selector, and per-panel permissions (writable fields,
+      embed domains). Panels sharing a placement stack by <code>Order</code>; two or more
+      render as tabs.
+    </p>
+    <p><strong>Placements:</strong> Issue panel (inline on the issue view) · Modal (issue
+      action menu) · Issue glance (sidebar).</p>
+
+    <h2>The <code>jira</code> bridge API</h2>
+    <p>
+      Widget code runs in a locked-down sandbox. Its only connection to Jira is the
+      <code>jira</code> object, available globally in your panel's JS:
+    </p>
+
+    <h3><code>jira.getField(fieldId) → Promise&lt;value&gt;</code></h3>
+    <p>
+      Read-only access to the current issue's fields, as the viewing user (people never see
+      more through a panel than Jira already shows them). Field values arrive in Jira REST
+      shapes: <code>summary</code> is a string, <code>priority</code> is
+      <code>{ name }</code>, <code>assignee</code> is
+      <code>{ accountId, displayName }</code>, <code>labels</code> is an array, rich-text
+      fields are ADF documents.
+    </p>
+<pre><code>jira.getField('priority').then(function (p) {
+  console.log(p &amp;&amp; p.name); // "Highest"
+});</code></pre>
+
+    <h3><code>jira.getUser() → Promise&lt;{ accountId }&gt;</code></h3>
+    <p>The viewing user's account id.</p>
+
+    <h3><code>jira.requestAction('updateField', { field, value }) → Promise</code></h3>
+    <p>Requests a field write. The server allows it only if <strong>all</strong> of these hold:</p>
+    <ol>
+      <li>the field id is listed in this panel's <strong>Writable fields</strong>
+        (admin-configured);</li>
+      <li>the panel actually targets this issue (personal panels: the caller is the
+        assignee);</li>
+      <li>the acting user's own Jira permissions allow the edit (writes run as the
+        viewer).</li>
+    </ol>
+    <p>
+      Rejections return an error whose message explains why. Plain-string values written to
+      rich-text fields are converted to Atlassian Document Format automatically.
+    </p>
+<pre><code>jira.requestAction('updateField', { field: 'duedate', value: '2026-08-05' })
+  .then(function () { /* saved */ })
+  .catch(function (e) { console.log(e.message); });</code></pre>
+
+    <div class="callout">
+      <strong>Pattern — per-issue storage:</strong> point a panel at a (hidden) text custom
+      field and persist widget state as JSON via <code>requestAction</code>. State survives
+      reloads, syncs between viewers, and every change is recorded in the issue history.
+    </div>
+
+    <h3><code>jira.embed(url, { height }) → Promise</code></h3>
+    <p>
+      Asks the trusted shell to render an external page below your widget (external iframes
+      cannot load inside the sandbox itself). The URL's hostname must exactly match one of the
+      panel's <strong>Allowed embed domains</strong> — https only, no wildcards — and the
+      domain must also be permitted by the installed app version (zero-egress installs block
+      all embeds). Max 3 embeds per panel; repeating a URL updates its height (80–800px).
+    </p>
+
+    <h3><code>jira.onIssueChanged(callback)</code></h3>
+    <p>
+      Registers a callback fired whenever the issue changes (field edits, transitions,
+      reassignment). Subsequent <code>jira.getField()</code> calls always answer from fresh
+      data.
+    </p>
+<pre><code>jira.onIssueChanged(function () { load(); });</code></pre>
+
+    <h2>Data safety</h2>
+    <ul>
+      <li><strong>History:</strong> every save keeps the previous version (last 10) — restore
+        from the History section in the editor. Restores are themselves undoable.</li>
+      <li><strong>Trash:</strong> deleting a panel moves it to Trash (restore or permanently
+        delete there).</li>
+      <li><strong>Conflicts:</strong> if someone else saved the panel since you opened it,
+        your save is rejected instead of silently overwriting — reload and re-apply.</li>
+      <li><strong>Export/Import:</strong> sidebar buttons download/upload all panels as JSON.
+        Imports are created disabled with fresh ids.</li>
+    </ul>
+    <div class="callout warn">
+      <strong>Export regularly</strong> — uninstalling the app permanently deletes all panels
+      (Atlassian Forge removes app storage on uninstall).
+    </div>
+
+    <h2>Templates</h2>
+    <p>
+      Ready-to-paste panels live in the
+      <a href="https://github.com/oliverm24ru/panelforge/tree/main/examples">examples folder on
+      GitHub</a>: escalation-style live banner, SLA countdown ring, cost estimator with guarded
+      write-back, persistent compliance checklist, a domain-rules deadline calculator, external
+      weather/map embeds, and a personal "Mission Control" HUD.
+    </p>
+  </div>
+
+  <footer>
+    Panelforge · <a href="privacy.html">Privacy policy</a> ·
+    <a href="support.html">Support</a> ·
+    <a href="https://github.com/oliverm24ru/panelforge">GitHub</a><br>
+    Built on Atlassian Forge. Not affiliated with Atlassian.
+  </footer>
+</body>
+</html>

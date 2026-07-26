@@ -1,0 +1,100 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Privacy Policy — Panelforge</title>
+  <link rel="icon" href="icon.svg">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <nav class="nav">
+      <a class="brand" href="index.html"><img src="icon.svg" alt=""> Panelforge</a>
+      <a class="link" href="docs.html">Documentation</a>
+      <a class="link" href="privacy.html">Privacy</a>
+      <a class="link" href="support.html">Support</a>
+      <a class="link" href="https://github.com/oliverm24ru/panelforge">GitHub</a>
+    </nav>
+  </header>
+
+  <div class="wrap prose">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: July 2026</p>
+
+    <p>
+      Panelforge ("the app") is an Atlassian Forge application for Jira Cloud, developed by
+      Oliver Masson ("we"). This policy describes what data the app handles and where it lives.
+      The short version: <strong>your data stays inside Atlassian's infrastructure — the app
+      sends nothing anywhere else.</strong>
+    </p>
+
+    <h2>What the app stores</h2>
+    <ol>
+      <li><strong>Panel definitions</strong> — the widget code (HTML/CSS/JS), targeting rules,
+        and settings that your Jira administrators create, plus their revision history. These
+        are stored in <strong>Atlassian Forge hosted storage</strong>, scoped to your Jira site.
+        They never leave Atlassian's infrastructure.</li>
+      <li><strong>Audit metadata</strong> — the Atlassian account ID of the administrator who
+        saved or deleted a panel, stored alongside the panel for change-history purposes.</li>
+      <li><strong>Per-issue widget data</strong> — some panels (e.g. checklists) store their
+        state in Jira custom fields <strong>on your own issues</strong>, via Jira's standard
+        APIs, as the acting user. This data lives in your Jira site like any other issue data
+        and is covered by your existing Jira permissions, history, and backups.</li>
+    </ol>
+
+    <h2>What the app accesses (but does not store)</h2>
+    <p>
+      To render panels, the app reads issue fields <strong>on behalf of the viewing user</strong>
+      — a viewer never sees more through a panel than Jira already shows them. Field writes
+      requested by a panel are validated server-side against admin-configured allowlists and
+      executed as the acting user.
+    </p>
+
+    <h2>What the app does NOT do</h2>
+    <ul>
+      <li>No data is transmitted to servers outside Atlassian. The production app declares
+        <strong>no external egress</strong> in its Forge manifest — the platform itself enforces
+        this.</li>
+      <li>No analytics, tracking, cookies, or third-party services.</li>
+      <li>No personal data is sold, shared, or processed outside your Atlassian site.</li>
+      <li>No AI processing of your data.</li>
+    </ul>
+
+    <h2>Data retention and deletion</h2>
+    <p>
+      Panel definitions remain in Forge storage until an administrator deletes them (a trash +
+      purge flow) or the app is uninstalled. <strong>Uninstalling the app permanently deletes
+      all panel definitions</strong> per Atlassian's Forge storage lifecycle. Per-issue widget
+      data in custom fields is ordinary Jira data and follows your site's own retention.
+    </p>
+
+    <h2>Data residency</h2>
+    <p>
+      Because the app uses Forge hosted storage and compute exclusively, data residency follows
+      your Atlassian host product's residency configuration.
+    </p>
+
+    <h2>Security</h2>
+    <p>
+      Widget code authored by your administrators executes in a restricted browser sandbox with
+      no access to Jira APIs, credentials, or storage. All privileged operations are validated
+      server-side. See the <a href="docs.html">documentation</a> for the full security model.
+    </p>
+
+    <h2>Contact</h2>
+    <p>
+      Questions, requests, or security reports:
+      <a href="mailto:olivermasson7@hotmail.com">olivermasson7@hotmail.com</a> or via
+      <a href="https://github.com/oliverm24ru/panelforge/issues">GitHub issues</a>.
+    </p>
+  </div>
+
+  <footer>
+    Panelforge · <a href="privacy.html">Privacy policy</a> ·
+    <a href="support.html">Support</a> ·
+    <a href="https://github.com/oliverm24ru/panelforge">GitHub</a><br>
+    Built on Atlassian Forge. Not affiliated with Atlassian.
+  </footer>
+</body>
+</html>
