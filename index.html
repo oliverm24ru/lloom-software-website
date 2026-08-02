@@ -1,125 +1,197 @@
 <!doctype html>
 <html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Panelforge — Custom Widgets for Jira Issues</title>
-  <meta name="description" content="Build your own Jira issue panels with HTML, CSS & JS — sandboxed, live-updating, and running entirely on Atlassian. No developer needed.">
-  <link rel="icon" href="icon.svg">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-  <header>
-    <nav class="nav">
-      <a class="brand" href="index.html"><img src="icon.svg" alt=""> Panelforge</a>
-      <a class="link" href="docs.html">Documentation</a>
-      <a class="link" href="privacy.html">Privacy</a>
-      <a class="link" href="support.html">Support</a>
-    </nav>
-  </header>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Panelforge — Custom Widgets for Jira Issues</title>
+    <meta
+      name="description"
+      content="Featherlight custom widgets for Jira: build your own issue panels with HTML, CSS & JS — sandboxed, live-updating, and running entirely on Atlassian."
+    />
+    <link rel="icon" href="icon.svg" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <header>
+      <nav class="nav">
+        <a class="brand" href="index.html"><img src="icon.svg" alt="" /> Panelforge</a>
+        <a class="link" href="docs.html">Documentation</a>
+        <a class="link" href="privacy.html">Privacy</a>
+        <a class="link" href="support.html">Support</a>
+      </nav>
+    </header>
 
-  <div class="hero">
-    <h1>Your own widgets on every Jira issue.<br><span class="grad">Just HTML, CSS &amp; JS.</span></h1>
-    <p class="lede">
-      Panelforge lets Jira admins build custom issue panels — banners, calculators,
-      checklists, deadline trackers — in a built-in editor. Fully sandboxed, validated
-      server-side, updating live. No separate app to build, no deploy pipeline, no developer needed.
-    </p>
-    <div class="cta-row">
-      <a class="btn primary" href="docs.html">Read the docs</a>
-      <a class="btn ghost" href="support.html">Contact us</a>
-    </div>
-    <div class="badges">
-      <span class="pill"><b>●</b> Zero data egress</span>
-      <span class="pill"><b>●</b> Runs entirely on Atlassian</span>
-      <span class="pill"><b>●</b> Hard browser sandbox</span>
-      <span class="pill"><b>●</b> Free</span>
-    </div>
-  </div>
-
-  <div class="wrap">
-    <section>
-      <h2>How it works</h2>
-      <p class="sub">From idea to live widget in minutes — all inside Jira admin settings.</p>
-      <div class="grid steps">
-        <div class="card">
-          <h3>Write</h3>
-          <p>Author your widget in a three-pane Monaco editor with live preview — against
-          sample data or any real issue on your site.</p>
-        </div>
-        <div class="card">
-          <h3>Target</h3>
-          <p>Rule-based: project, issue type, field values. Or make it a <em>personal
-          panel</em> that follows each user onto the issues assigned to them.</p>
-        </div>
-        <div class="card">
-          <h3>Publish</h3>
-          <p>Save. It renders on matching issues immediately — inline panel, modal, or
-          sidebar glance — and updates live when the issue changes.</p>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <h2>What people build with it</h2>
-      <p class="sub">Real workflow tools, not gimmicks. All of these are ready-made templates.</p>
-      <div class="grid">
-        <div class="card"><span class="emoji">🚨</span><h3>Escalation banners</h3>
-          <p>A red banner with on-call contacts that only appears on Highest-priority issues in the projects you choose.</p></div>
-        <div class="card"><span class="emoji">✅</span><h3>Compliance checklists</h3>
-          <p>Persistent, shared checklists stored in a Jira field — every tick lands in the issue history. A free audit trail.</p></div>
-        <div class="card"><span class="emoji">🛩️</span><h3>Domain-rule calculators</h3>
-          <p>Encode your team's real rules — MEL rectification windows, SLA matrices, filing deadlines — computed from issue fields, written back with one click.</p></div>
-        <div class="card"><span class="emoji">⏱️</span><h3>Deadline countdowns</h3>
-          <p>Live-ticking SLA rings that drain toward the due date and escalate from green to amber to a pulsing overdue red.</p></div>
-        <div class="card"><span class="emoji">👤</span><h3>Personal consoles</h3>
-          <p>Panels bound to the assignee: each user gets their own tools on exactly their own work — zero configuration.</p></div>
-        <div class="card"><span class="emoji">🧮</span><h3>Estimators with write-back</h3>
-          <p>Interactive calculators whose results are saved to real Jira fields through a server-validated write path.</p></div>
-      </div>
-    </section>
-
-    <section>
-      <h2>Security is the product</h2>
-      <p class="sub">Custom code execution done the way Atlassian's platform demands it be done.</p>
-      <div class="grid">
-        <div class="card"><span class="emoji">📦</span><h3>Hard sandbox</h3>
-          <p>Widget code runs in a nested <code>sandbox="allow-scripts"</code> iframe with an opaque
-          origin — no access to Jira APIs, tokens, storage, or the app itself. Its only capability
-          is a small allowlisted message bridge.</p></div>
-        <div class="card"><span class="emoji">🛡️</span><h3>Guarded writes</h3>
-          <p>A widget can update a field only if the admin allowlisted that exact field on that
-          panel — validated server-side, executed as the viewing user, so Jira's own permissions
-          always have the final word. Every denial is logged.</p></div>
-        <div class="card"><span class="emoji">🔒</span><h3>Zero egress</h3>
-          <p>No external servers, no analytics, no tracking. The production app declares no
-          external egress in its manifest — the Forge platform itself enforces that nothing
-          leaves Atlassian's infrastructure.</p></div>
-        <div class="card"><span class="emoji">🗂️</span><h3>Data safety built in</h3>
-          <p>Every panel save keeps a 10-deep revision history with one-click restore. Deletes go
-          to a trash. Concurrent edits are conflict-checked. Everything exports to JSON.</p></div>
-      </div>
-    </section>
-
-    <section>
-      <h2>Honest by design</h2>
-      <p class="sub">
-        Unlike AI app-builders that generate a whole standalone app per idea, Panelforge is one
-        lightweight app where you write and manage all your widgets in one place — you stay in
-        control of the exact code that runs. Your data lives in Atlassian's infrastructure and
-        your own Jira fields; export it all as JSON any time.
+    <div class="hero">
+      <h1>
+        Your own widgets on every Jira issue.<br /><span class="grad"
+          >Just HTML, CSS &amp; JS.</span
+        >
+      </h1>
+      <p class="lede">
+        Panelforge is the featherlight way to customize Jira: build issue panels — banners,
+        calculators, checklists, deadline trackers — in a built-in editor. One tiny app, fully
+        sandboxed, updating live. No separate apps to build, no deploy pipeline, no developer
+        needed.
       </p>
-      <div class="cta-row" style="justify-content:flex-start">
-        <a class="btn primary" href="docs.html">Get started</a>
-        <a class="btn ghost" href="support.html">Questions? Contact us</a>
+      <div class="cta-row">
+        <a class="btn primary" href="docs.html">Read the docs</a>
+        <a class="btn ghost" href="support.html">Contact us</a>
       </div>
-    </section>
-  </div>
+      <div class="badges">
+        <span class="pill"><b>●</b> Zero data egress</span>
+        <span class="pill"><b>●</b> Runs entirely on Atlassian</span>
+        <span class="pill"><b>●</b> Hard browser sandbox</span>
+        <span class="pill"><b>●</b> Free</span>
+      </div>
+    </div>
 
-  <footer>
-    Panelforge · <a href="privacy.html">Privacy policy</a> ·
-    <a href="support.html">Support</a><br>
-    Built on Atlassian Forge. Not affiliated with Atlassian.
-  </footer>
-</body>
+    <div class="wrap">
+      <section>
+        <h2>How it works</h2>
+        <p class="sub">From idea to live widget in minutes — all inside Jira admin settings.</p>
+        <div class="grid steps">
+          <div class="card">
+            <h3>Write</h3>
+            <p>
+              Author your widget in a three-pane Monaco editor with live preview — against sample
+              data or any real issue on your site.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Target</h3>
+            <p>
+              Rule-based: project, issue type, field values. Or make it a
+              <em>personal panel</em> that follows each user onto the issues assigned to them.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Publish</h3>
+            <p>
+              Save. It renders on matching issues immediately — inline panel, modal, or sidebar
+              glance — and updates live when the issue changes.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>What people build with it</h2>
+        <p class="sub">Real workflow tools, not gimmicks. All of these are ready-made templates.</p>
+        <div class="grid">
+          <div class="card">
+            <span class="emoji">🚨</span>
+            <h3>Escalation banners</h3>
+            <p>
+              A red banner with on-call contacts that only appears on Highest-priority issues in the
+              projects you choose.
+            </p>
+          </div>
+          <div class="card">
+            <span class="emoji">✅</span>
+            <h3>Compliance checklists</h3>
+            <p>
+              Persistent, shared checklists stored in a Jira field — every tick lands in the issue
+              history. A free audit trail.
+            </p>
+          </div>
+          <div class="card">
+            <span class="emoji">🛩️</span>
+            <h3>Domain-rule calculators</h3>
+            <p>
+              Encode your team's real rules — MEL rectification windows, SLA matrices, filing
+              deadlines — computed from issue fields, written back with one click.
+            </p>
+          </div>
+          <div class="card">
+            <span class="emoji">⏱️</span>
+            <h3>Deadline countdowns</h3>
+            <p>
+              Live-ticking SLA rings that drain toward the due date and escalate from green to amber
+              to a pulsing overdue red.
+            </p>
+          </div>
+          <div class="card">
+            <span class="emoji">👤</span>
+            <h3>Personal consoles</h3>
+            <p>
+              Panels bound to the assignee: each user gets their own tools on exactly their own work
+              — zero configuration.
+            </p>
+          </div>
+          <div class="card">
+            <span class="emoji">🧮</span>
+            <h3>Estimators with write-back</h3>
+            <p>
+              Interactive calculators whose results are saved to real Jira fields through a
+              server-validated write path.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Security is the product</h2>
+        <p class="sub">
+          Custom code execution done the way Atlassian's platform demands it be done.
+        </p>
+        <div class="grid">
+          <div class="card">
+            <span class="emoji">📦</span>
+            <h3>Hard sandbox</h3>
+            <p>
+              Widget code runs in a nested <code>sandbox="allow-scripts"</code> iframe with an
+              opaque origin — no access to Jira APIs, tokens, storage, or the app itself. Its only
+              capability is a small allowlisted message bridge.
+            </p>
+          </div>
+          <div class="card">
+            <span class="emoji">🛡️</span>
+            <h3>Guarded writes</h3>
+            <p>
+              A widget can update a field only if the admin allowlisted that exact field on that
+              panel — validated server-side, executed as the viewing user, so Jira's own permissions
+              always have the final word. Every denial is logged.
+            </p>
+          </div>
+          <div class="card">
+            <span class="emoji">🔒</span>
+            <h3>Zero egress</h3>
+            <p>
+              No external servers, no analytics, no tracking. The production app declares no
+              external egress in its manifest — the Forge platform itself enforces that nothing
+              leaves Atlassian's infrastructure.
+            </p>
+          </div>
+          <div class="card">
+            <span class="emoji">🗂️</span>
+            <h3>Data safety built in</h3>
+            <p>
+              Every panel save keeps a 10-deep revision history with one-click restore. Deletes go
+              to a trash. Concurrent edits are conflict-checked. Everything exports to JSON.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <h2>Honest by design</h2>
+        <p class="sub">
+          Unlike AI app-builders that generate a whole standalone app per idea, Panelforge is one
+          lightweight app where you write and manage all your widgets in one place — you stay in
+          control of the exact code that runs. Your data lives in Atlassian's infrastructure and
+          your own Jira fields; export it all as JSON any time.
+        </p>
+        <div class="cta-row" style="justify-content: flex-start">
+          <a class="btn primary" href="docs.html">Get started</a>
+          <a class="btn ghost" href="support.html">Questions? Contact us</a>
+        </div>
+      </section>
+    </div>
+
+    <footer>
+      Panelforge · <a href="privacy.html">Privacy policy</a> · <a href="support.html">Support</a
+      ><br />
+      Built on Atlassian Forge. Not affiliated with Atlassian.
+    </footer>
+  </body>
 </html>
