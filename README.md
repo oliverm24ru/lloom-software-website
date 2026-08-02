@@ -13,7 +13,7 @@ folder** to the root of your public Pages repo, then enable Pages (repo Settings
 | `privacy.html` | Privacy policy                                   |
 | `support.html` | Support contact + response times                 |
 | `style.css`    | Shared stylesheet                                |
-| `icon.svg`     | Logo/favicon (same mark as the app manifest)     |
+| `Icon.png`     | Logo/favicon (same mark as the app manifest)     |
 
 ## URLs to paste into Atlassian forms
 
